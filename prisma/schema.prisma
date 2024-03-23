@@ -1,0 +1,341 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model notifikasi {
+  id          BigInt     @id @default(autoincrement())
+  createdAt   DateTime   @db.Timestamp(6)
+  notifikasi  String     @default("") @db.VarChar(500)
+  flag_notif  Int        @default(0)
+  msg_for     String     @default("") @db.VarChar(50)
+}
+
+model m_dinas {
+  id         Int    @id @default(autoincrement())
+  nama_dinas String
+  email      String
+  password   String
+  role       String
+  otorisasi  String @default("admin") @db.VarChar(50)
+}
+
+model m_pemohon {
+  id                Int     @id @default(autoincrement())
+  nama_pemohon      String
+  alamat            String
+  nomor_ktp         String
+  ibu_kandung       String? @default("") @db.VarChar(100)
+  no_telepon        String
+  email             String? @default("") @db.VarChar(100)
+  password          String
+  role              String
+  nop               String? @default("") @db.VarChar(100)
+  status_permohonan String? @default("") @db.VarChar(100)
+  provinsi          String  @default("") @db.VarChar(100)
+  kota              String  @default("") @db.VarChar(100)
+  kecamatan         String  @default("") @db.VarChar(100)
+  kelurahan         String  @default("") @db.VarChar(100)
+}
+
+model data_permohonan {
+  id                             Int       @id @default(autoincrement())
+  nama_pemohon                   String?   @default("") @db.VarChar(50)
+  alamat_ktp                     String?   @default("") @db.VarChar(225)
+  telepon                        String?   @default("") @db.VarChar(50)
+  email                          String?   @default("") @db.VarChar(50)
+  status_permohonan              Int?
+  nomor_polisi                   String?   @default("") @db.VarChar(50)
+  nama_pemilik                   String?   @default("") @db.VarChar(50)
+  merek_kendaraan                String?   @default("") @db.VarChar(15)
+  alamat_stnk                    String?   @default("") @db.VarChar(225)
+  jenis_kendaraan                String?   @default("") @db.VarChar(15)
+  model_kendaraan                String?   @default("") @db.VarChar(15)
+  tahun_pembuatan                String?   @default("") @db.VarChar(20)
+  isi_silinder                   String?   @default("") @db.VarChar(20)
+  nomor_rangka                   String?   @default("") @db.VarChar(25)
+  nomor_mesin                    String?   @default("") @db.VarChar(25)
+  warna_kendaraan                String?   @default("") @db.VarChar(20)
+  bahan_bakar                    String?   @default("") @db.VarChar(25)
+  warna_tnkb                     String?   @default("") @db.VarChar(20)
+  tahun_registrasi               String?   @default("") @db.VarChar(20)
+  nomor_bpkb                     String?   @default("") @db.VarChar(30)
+  masa_berlaku                   String?   @default("") @db.VarChar(20)
+  jumlah_roda                    Int?
+  keterangan                     String?   @default("") @db.VarChar(225)
+  foto_depan                     String?   @default("") @db.VarChar(225)
+  foto_stnk                      String?   @default("") @db.VarChar(225)
+  foto_ktp                       String?   @default("") @db.VarChar(225)
+  foto_nib                       String?   @default("") @db.VarChar(225)
+  provinsi                       String?   @default("") @db.VarChar(30)
+  kota                           String?   @default("") @db.VarChar(30)
+  penerbit                       String?   @default("") @db.VarChar(30)
+  foto_surat_pernyataan          String?   @default("") @db.VarChar(225)
+  foto_bukti_bayar_pbb           String?   @default("") @db.VarChar(225)
+  nomor_telepon_penanggung_jawab String?   @default("") @db.VarChar(30)
+  status_keterangan              String?   @default("") @db.VarChar(225)
+  tanggal_approve                String?   @default("") @db.VarChar(50)
+  foto_npwp                      String?   @default("") @db.VarChar(225)
+  foto_samping                   String?   @default("") @db.VarChar(225)
+  kode_bank                      String?   @default("") @db.VarChar(20)
+  nomor_ktp                      String?   @default("") @db.VarChar(50)
+  tanggal_pengajuan              DateTime  @default(now()) @db.Timestamp(6)
+  status_perubahan               Int?      @default(0)
+  tgl_perubahan                  DateTime? @db.Timestamp(6)
+  keterangan_perubahan           String?   @default("") @db.VarChar(225)
+}
+
+model alokasi_bbm {
+  id                           Int       @id @default(autoincrement())
+  nomor_polisi                 String
+  nama_pemohon                 String
+  jumlah_alokasi               Int
+  keterangan_pengambilan_kartu String?   @default("") @db.VarChar(225)
+  kuota_last_date              DateTime? @db.Timestamp(6)
+  nomor_kartu                  String?   @default("") @db.VarChar(50)
+  nomor_rekening               String?   @default("") @db.VarChar(50)
+  sisa_kuota                   Decimal?  @default(0) @db.Decimal
+  status_pembuatan_rekening    Int?      @default(0)
+  tgl_pembuatan_rekening       String?   @default("") @db.VarChar(100)
+}
+
+model surat_elektronik {
+  id_surat       Int      @id @default(autoincrement())
+  kop_surat      String
+  nama_pemohon   String
+  nomor_polisi   String
+  merk_kendaraan String
+  tipe_kendaraan String
+  kuota_bbm      Int
+  tanggal_surat  DateTime @default(now()) @db.Timestamp(6)
+}
+
+model m_user_otp {
+  id_otp     Int    @id @default(autoincrement())
+  otp        String
+  no_telepon String
+}
+
+model m_user_bank {
+  id_user_bank Int     @id @default(autoincrement())
+  nama         String  @default("") @db.VarChar(225)
+  no_telepon   String? @default("") @db.VarChar(225)
+  password     String  @default("") @db.VarChar(225)
+  role         String
+  email        String  @default("") @db.VarChar(225)
+  otorisasi    String  @default("adm-bank") @db.VarChar(225)
+  kode_bank    String  @default("") @db.VarChar(10)
+}
+
+model dummy_nop {
+  id         Int    @id @default(autoincrement())
+  nop        String
+  status     Int
+  keterangan String
+  nama       String
+  no_telepon String
+}
+
+model angka_permohonan {
+  id               Int    @id @default(autoincrement())
+  total_permohonan String
+  total_approved   String
+  total_pending    String
+  total_rejected   String
+}
+
+model evaluasi_bank {
+  id                   Int    @id @default(autoincrement())
+  nama_bank            String
+  total_kartu_terbit   String
+  total_kartu_diproses String
+}
+
+model m_bank {
+  bank_id    String    @id @db.VarChar(5)
+  nama_bank  String?   @default("") @db.VarChar(100)
+  telp       String?   @default("") @db.VarChar(15)
+  alamat     String?   @default("") @db.VarChar(225)
+  keterangan String?   @default("") @db.VarChar(50)
+  status     Int?      @default(1)
+  create_at  DateTime  @default(now()) @db.Timestamp(6)
+  update_at  DateTime? @db.Timestamp(6)
+}
+
+model m_bank_h2h {
+  id            BigInt    @default(autoincrement())
+  bank_id       String    @db.VarChar(5)
+  username      String?   @default("") @db.VarChar(100)
+  user_password String?   @default("") @db.VarChar(225)
+  keterangan    String?   @default("") @db.VarChar(150)
+  status        Int?      @default(1)
+  last_login    DateTime? @db.Timestamp(6)
+  create_at     DateTime  @default(now()) @db.Timestamp(6)
+  update_at     DateTime? @db.Timestamp(6)
+
+  @@id([id, bank_id])
+}
+
+model m_spbu {
+  id         BigInt    @default(autoincrement())
+  spbu_id    String    @db.VarChar(50)
+  nama       String?   @default("") @db.VarChar(150)
+  alamat     String?   @default("") @db.VarChar(225)
+  lat        String?   @default("") @db.VarChar(150)
+  long       String?   @default("") @db.VarChar(150)
+  keterangan String?   @default("") @db.VarChar(150)
+  status     Int?      @default(1)
+  create_at  DateTime  @default(now()) @db.Timestamp(6)
+  update_at  DateTime? @db.Timestamp(6)
+  bank_id    String?   @default("") @db.VarChar(5)
+
+  @@id([id, spbu_id])
+}
+
+model m_spbu_edc {
+  id         BigInt    @default(autoincrement())
+  spbu_id    String    @db.VarChar(50)
+  edc_id     String    @default("") @db.VarChar(150)
+  keterangan String?   @default("") @db.VarChar(150)
+  status     Int?      @default(1)
+  create_at  DateTime  @default(now()) @db.Timestamp(6)
+  update_at  DateTime? @db.Timestamp(6)
+
+  @@id([id, spbu_id, edc_id])
+}
+
+/// This table is a partition table and requires additional setup for migrations. Visit https://pris.ly/d/partition-tables for more info.
+model tr_pengguna {
+  id                BigInt    @default(autoincrement())
+  bank_id           String    @default("") @db.VarChar(10)
+  spbu_id           String    @default("") @db.VarChar(25)
+  edc_id            String?   @default("") @db.VarChar(50)
+  no_pol            String    @default("") @db.VarChar(10)
+  no_rek            String    @default("") @db.VarChar(50)
+  card_id           String    @default("") @db.VarChar(50)
+  jenis_bbm         String?   @default("") @db.VarChar(100)
+  wilayah           String?   @default("") @db.VarChar(100)
+  trx_id            String    @default("") @db.VarChar(50)
+  trx_date          DateTime  @db.Timestamp(6)
+  jml_liter         Int?      @default(0)
+  nominal_pembelian Decimal?  @default(0) @db.Decimal(11, 0)
+  kuota_harian      Int?      @default(0)
+  sisa_kuota        Int?      @default(0)
+  create_at         DateTime  @default(now()) @db.Timestamp(6)
+  update_at         DateTime? @db.Timestamp(6)
+
+  @@id([id, bank_id, spbu_id, no_pol, no_rek, card_id, trx_id, trx_date])
+}
+
+model merk_kendaraan {
+  id    BigInt @id @default(autoincrement())
+  brand String @default("") @db.VarChar(100)
+}
+
+model data_pembukaan_rekening {
+  id                        BigInt  @id @default(autoincrement())
+  nik                       String  @default("") @db.VarChar(100)
+  kode_bank                 String? @default("") @db.VarChar(10)
+  nama_sesuai_ktp           String  @default("") @db.VarChar(100)
+  nama_ibu_kandung          String  @default("") @db.VarChar(100)
+  jenis_kelamin             Int     @default(1)
+  tempat_lahir              String  @default("") @db.VarChar(225)
+  tanggal_lahir             String  @default("") @db.VarChar(100)
+  alamat                    String  @default("") @db.VarChar(225)
+  status_alamat             String  @default("") @db.VarChar(100)
+  provinsi                  String  @default("") @db.VarChar(100)
+  kota                      String  @default("") @db.VarChar(100)
+  kecamatan                 String  @default("") @db.VarChar(100)
+  kelurahan                 String  @default("") @db.VarChar(100)
+  kode_pos                  String  @default("") @db.VarChar(100)
+  npwp                      String? @default("999999999999999") @db.VarChar(100)
+  nomor_hp                  String  @default("") @db.VarChar(100)
+  email                     String  @default("") @db.VarChar(100)
+  agama                     String  @default("") @db.VarChar(100)
+  status_kawin              String  @default("") @db.VarChar(100)
+  pendidikan_akhir          String  @default("") @db.VarChar(100)
+  pekerjaan                 String  @default("") @db.VarChar(100)
+  tanggal_mulai_kerja       String? @default("") @db.VarChar(100)
+  nomor_induk_pegawai       String? @default("") @db.VarChar(100)
+  bidang_usaha              String  @default("") @db.VarChar(100)
+  jabatan                   String  @default("") @db.VarChar(100)
+  nama_perusahaan           String? @default("") @db.VarChar(100)
+  lokasi_usaha              String? @default("") @db.VarChar(100)
+  provinsi_usaha            String? @default("") @db.VarChar(100)
+  kota_kerja                String? @default("") @db.VarChar(100)
+  penghasilan_perbulan      String  @default("") @db.VarChar(100)
+  sumber_penghasilan        String  @default("") @db.VarChar(100)
+  penghasilan_tambahan      String  @default("") @db.VarChar(100)
+  frekuensi_setoran         String  @default("") @db.VarChar(100)
+  rata_rata_setoran         String  @default("") @db.VarChar(100)
+  frekuensi_penarikan       String  @default("") @db.VarChar(100)
+  rata_rata_penarikan       String  @default("") @db.VarChar(100)
+  tujuan_pembukaan_rekening String? @default("") @db.VarChar(100)
+  status                    Int?    @default(0)
+  status_terbit             Int?    @default(0)
+  createdAt                 DateTime @default(now()) @db.Timestamp(6)
+  tanggal_approve           String? @default("") @db.VarChar(100)
+  tanggal_terbit            String? @default("") @db.VarChar(100)
+  nopol                     String  @default("") @db.VarChar(50)
+  waktu_kedatangan          String? @default("") @db.VarChar(50)
+  alamat_pengambilan        String? @default("") @db.VarChar(250)
+
+}
+
+model running_text {
+  id       BigInt @id @default(autoincrement())
+  isi_text String @default("") @db.VarChar(1000)
+}
+
+model berita {
+  id_berita       BigInt   @id @default(autoincrement())
+  tanggal_publish DateTime @default(now()) @db.Timestamp(6)
+  judul           String?  @default("") @db.VarChar(255)
+  gambar          String?  @default("") @db.VarChar(255)
+  isi             String?  @default("") @db.VarChar(1000)
+}
+
+model provinsi {
+  id            Int    @id @default(autoincrement())
+  nama_provinsi String @default("") @db.VarChar(255)
+  id_provinsi   String @default("") @db.VarChar(50)
+}
+
+model kota_kabupaten {
+  id          Int    @id @default(autoincrement())
+  provinsi_id String @default("") @db.VarChar(50)
+  nama        String @default("") @db.VarChar(255)
+  id_kkb      String @default("") @db.VarChar(50)
+}
+
+model kecamatan {
+  id           Int    @id @default(autoincrement())
+  regensi_id   String @default("") @db.VarChar(50)
+  nama         String @default("") @db.VarChar(255)
+  id_kecamatan String @default("") @db.VarChar(50)
+}
+
+model kelurahan {
+  id             Int    @id @default(autoincrement())
+  nama_kelurahan String @default("") @db.VarChar(255)
+  distrik_id     String @default("") @db.VarChar(50)
+  id_kelurahan   String @default("") @db.VarChar(50)
+}
+
+model test {
+  id               BigInt    @default(autoincrement())
+  nik              String    @db.VarChar(50)
+  nama             String?   @default("") @db.VarChar(150)
+  keterangan       String?   @default("") @db.VarChar(150)
+  status_perubahan Int?      @default(1)
+  create_at        DateTime  @default(now()) @db.Timestamp(6)
+  update_at        DateTime? @db.Timestamp(6)
+
+  @@id([id, nik])
+}
